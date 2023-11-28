@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+    {% block title %}
+        {{user.first_name}}{{user.last_name}}
+    {% endblock %}
+
+{% block body_content %}
+    <h1>{{user.first_name}} {{user.last_name}}</h1>
+    <img class="profile-image" src="{{image_url}}" alt="{{user.first_name}}' '{{user.last_name}}'s profile image">
+
+    <div class="profile-buttons">
+        <button id="edit-button" class="profile-button">
+            <a href="/users/{{user.id}}/edit">Edit User</a>
+        </button>
+        <button id="delete-button" class="profile-button">
+            <a href="/users/{{user.id}}/delete">Delete User</a>
+        </button>
+        <button id="back-button" class="profile-button"><a href="/">Back to all users!</a></button>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+.profile-image{
+    max-width: 250px;
+    max-height: 250px;
+    margin-bottom: 20px;
+}
+
+.profile-button{
+    display: block;
+    margin-bottom: 20px;
+}
