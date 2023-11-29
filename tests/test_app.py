@@ -46,6 +46,8 @@ class User_Views(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn('<h2>Users:</h2>', html)
+            self.assertIn('Jessica Kelly', html)
+
 
     def test_show_new_user_form(self):
         """Test new user form"""
@@ -65,6 +67,7 @@ class User_Views(TestCase):
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn('<div class="profile-buttons">', html)
+            self.assertIn('<h1>Jessica Kelly</h1>', html)
 
     def test_show_edit_user_form(self):
         """Test edit user pages"""
