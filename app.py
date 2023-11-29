@@ -28,7 +28,7 @@ def redirect_to_user_list():
 @app.route('/users')
 def list_all_users():
     """List all current users in the database"""
-    users = User.query.all()
+    users = User.query.order_by(User.last_name, User.first_name).all()
 
     return render_template('users.html', users=users)
 
@@ -89,7 +89,7 @@ def handle_edit_user_form(user_id):
 
     return redirect (f'/users/{user.id}')
 
-@app.route('/users/<int:user_id>/delete')
+@app.route('/users/<int:user_id>/delete', methods=["POST"])
 def delete_user(user_id):
     """Delete the show user from the page"""
     

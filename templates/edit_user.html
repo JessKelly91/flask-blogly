@@ -3,6 +3,8 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body_content%}
+    <h2>Edit {{user.get_full_name()}}'s Profile</h2>
+
     <form action="/users/{{user.id}}/edit" method="POST">
         <input type="text" name="first-name" value="{{user.first_name}}">
         <input type="text" name="last-name" value="{{user.last_name}}">

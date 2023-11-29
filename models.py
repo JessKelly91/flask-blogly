@@ -17,3 +17,9 @@ class User(db.Model):
     first_name = db.Column(db.String, nullable = False)
     last_name = db.Column(db.String, nullable = False)
     image_url = db.Column(db.String, default = 'https://tinyurl.com/4vzvrrx3')
+
+    def get_full_name(self):
+        """Put together first/last name"""
+        full_name = f'{self.first_name} {self.last_name}'
+
+        return full_name
