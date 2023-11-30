@@ -1,4 +1,4 @@
-from models import User, db
+from models import User, db, Post
 from app import app
 
 #Create all tables
@@ -8,6 +8,7 @@ with app.app_context():
 
 #if table isn't empty, empty it
     User.query.delete()
+    Post.query.delete()
 
     #Add users
     JessKelly = User(first_name="Jessica", last_name="Kelly")
@@ -16,13 +17,17 @@ with app.app_context():
 
     KylieJackson = User(first_name="Kylie", last_name="Jackson", image_url="https://tinyurl.com/mvem9kp7")
 
-    
+    #Add new objects to session + commit to DB
+    db.session.add_all([JessKelly, CraigThom, KylieJackson])
+    db.session.commit()
 
+    #Add posts
+    JessPost = Post(title="My First Post", content="Wow posting is fun!", user_id=1)
 
-    #Add new objects to session
-    db.session.add(JessKelly)
-    db.session.add(CraigThom)
-    db.session.add(KylieJackson)
+    CraigPost =Post(title="My First Post", content="Wow posting is fun!", user_id=2)
 
-    #commit to database
+    KyliePost = Post(title="My First Post", content="Wow posting is fun!", user_id=3)
+
+    #Add new objects to session + commit to DB
+    db.session.add_all([JessPost, CraigPost, KyliePost])
     db.session.commit()

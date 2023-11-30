@@ -4,16 +4,41 @@
     {% endblock %}
 
 {% block body_content %}
-    <h1>{{user.get_full_name()}}</h1>
-    <img class="profile-image" src="{{image_url}}" alt="{{user.get_full_name()}}'s profile image">
 
-    <div class="profile-buttons">
-        <button id="edit-button" class="profile-button">
-            <a href="/users/{{user.id}}/edit">Edit User</a>
-        </button>
-        <button id="delete-button" class="profile-button">
-            <a href="/users/{{user.id}}/delete">Delete User</a>
-        </button>
-        <button id="back-button" class="profile-button"><a href="/">Back to all users!</a></button>
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <img id="profile-image" class="img-thumbnail" src="{{image_url}}" alt="{{user.get_full_name()}}'s profile image">
+            </div>
+        </div>
+        <div class="col">
+            <h1>{{user.get_full_name()}}</h1>
+            <div class="profile-buttons">
+                <div class="mb-3">
+                    <a class="btn btn-primary" href="/users/{{user.id}}/edit" role="button">Edit User</a>
+                    <a class="btn btn-danger" href="/users/{{user.id}}/delete" role="button">Delete User</a>
+                </div>
+            </div>
+        
+            <h3>Posts</h3>
+            <div class="mb-3">
+                <ul class="list-group list-group-flush">
+                    {% for post in posts %}
+                        <li class="list-group-item">
+                            <a href="/posts/{{post.id}}">{{post.title}}</a>
+                        </li>
+                    {% endfor%}
+                </ul>
+            </div>
+        
+            <div class="mb-3">
+                <a class="btn btn-primary" href="/users/{{user.id}}/posts/new" role="button">New Post</a>
+            </div>
+        </div>
     </div>
+
+</div>
+    
+
 {% endblock %}

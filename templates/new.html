@@ -3,11 +3,26 @@
 {% block title %}New User{% endblock %}
 
 {% block body_content%}
+<div class="container">
     <form action="/new" method="POST">
-        <input type="text" name="first-name" placeholder="Jane">
-        <input type="text" name="last-name" placeholder="Doe">
-        <input type="url" name="image-url" placeholder="https://www.profileimage.com">
+        <div class="mb-3">
+            <label for="first-name" class="form-label">First Name:</label>
+            <input id="first-name" type="text" class="form-control" name="first-name" placeholder="Jane">
+        </div>
         
-        <button type="submit">Add User!</button>
+        <div class="mb-3">
+            <label for="last-name" class="form-label">Last Name:</label>
+            <input id="last-name" type="text" class="form-control" name="last-name" placeholder="Doe">
+        </div>
+            
+        <div class="mb-3">
+            <label for="image-url" class="form-label">Image URL:</label>
+            <input id="image-url" type="url" class="form-control" name="image-url" placeholder="https://www.profileimage.com">
+        </div>
+            
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Add User!</button>
+        </div>
     </form>
+</div>
 {% endblock %}
