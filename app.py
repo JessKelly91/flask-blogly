@@ -21,10 +21,11 @@ with app.app_context():
 
 #USER ROUTES
 @app.route('/')
-def redirect_to_user_list():
+def show_homepage():
     """redirect to user lists"""
+    posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()
 
-    return redirect('/users')
+    return render_template('homepage.html', posts=posts)
 
 @app.route('/users')
 def list_all_users():
@@ -93,7 +94,7 @@ def handle_edit_user_form(user_id):
 
 @app.route('/users/<int:user_id>/delete')
 def delete_user(user_id):
-    """Delete the show user from the page"""
+    """handle the deletion of a user"""
     
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
@@ -106,8 +107,9 @@ def delete_user(user_id):
 def show_add_new_post_form(user_id):
     """Show new post form"""
     user = User.query.get_or_404(user_id)
+    tags = Tag.query.all()
 
-    return render_template('new_post.html', user=user)
+    return render_template('new_post.html', user=user, tags=tags)
 
 
 @app.route('/users/<user_id>/posts/new', methods=["POST"])
@@ -118,10 +120,20 @@ def handle_add_new_post(user_id):
     #get info from form
     title = request.form["title"]
     content = request.form["content"]
+
     new_post = Post(title=title, content=content, user_id=user.id)
 
     #add info to posts table
     db.session.add(new_post)
+    db.session.commit()
+
+    selected_tags = request.form.getlist('tags')
+    for tag_id in selected_tags:
+        tag = Tag.query.get(tag_id)
+        if tag:
+            new_post_tag = PostTag(post_id=new_post.id, tag_id=tag.id)
+            db.session.add(new_post_tag)
+
     db.session.commit()
 
     return redirect(f'/users/{user.id}')
@@ -132,7 +144,9 @@ def show_post(post_id):
     post = Post.query.get_or_404(post_id)
     user = User.query.get(post.user_id)
 
-    return render_template('show_post.html', post=post, user=user)
+    tags = post.tags
+
+    return render_template('show_post.html', post=post, user=user, tags=tags)
 
 @app.route('/posts/<post_id>/edit')
 def show_edit_post_form(post_id):

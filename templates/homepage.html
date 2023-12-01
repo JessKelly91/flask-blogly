@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block body_content%}
+    <h2>Most Recent Posts:</h2>
+    <ul>
+    {% for post in posts %}
+        <li>
+            <a href="/posts/{{post.id}}">{{post.title}}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    
+    <a class="btn btn-primary" href="/users" role="button">All Users</a>
+    <a class="btn btn-primary" href="/tags" role="button">All Tags</a>
+    
+{% endblock %}
+

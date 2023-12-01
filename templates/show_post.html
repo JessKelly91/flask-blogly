@@ -12,19 +12,18 @@
     By: {{user.get_full_name()}}
 </p>
 
-<div id="post-buttons">
-    <div class="mb-3">
-        <a class="btn btn-outline-primary" id="back-button" href="/users/{{user.id}}" role="button">Back</a>
-    </div>
+<div id="post-buttons" class="mb-3">
+    <a class="btn btn-outline-primary" id="back-button" href="/users/{{user.id}}" role="button">Back</a>
+    <a class="btn btn-primary" href="/posts/{{post.id}}/edit" role="button">Edit</a>
+    <a class="btn btn-danger" id="delete-post" href="/posts/{{post.id}}/delete" role="button">Delete</a>
+</div>
 
-    <div class="mb-3">
-        <a class="btn btn-primary" href="/posts/{{post.id}}/edit" role="button">Edit</a>
-    </div>
-
-    <div class="mb-3">
-        <a class="btn btn-danger" id="delete-post" href="/posts/{{post.id}}/delete" role="button">Delete</a>
-    </div>
-
+<div id="post-tags" class="mb-3">
+    <p><b>Tags:</b>
+        {% for tag in tags %}
+            <a class="btn btn-primary btn-sm" id="tag-button" href="/tags/{{tag.id}}" role="button">{{tag.name}}</a>
+        {% endfor %}
+    </p>
 </div>
 
 {% endblock %}

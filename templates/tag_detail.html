@@ -14,7 +14,9 @@
     {% endfor %}
 </ul>
 
-<a class="btn btn-primary" href="/tags/{{tag.id}}/edit" role="button">Edit</a>
-<a class="btn btn-danger" href="/tags/{{tag.id}}/delete" role="button">Delete</a>
+<div id="tag-buttons" class="mb-3">
+    <a class="btn btn-primary" href="/tags/{{tag.id}}/edit" role="button">Edit</a>
+    <a class="btn btn-danger" href="/tags/{{tag.id}}/delete" role="button">Delete</a>
+</div>
 
 {% endblock %}

@@ -19,6 +19,14 @@
         </div>
 
         <div class="mb-3">
+            <p>Tags:</p>
+            {% for tag in tags%}
+                <label for="{{tag.id}}" class="form-label">{{tag.name}}</label>
+                <input id="{{tag.id}}" name="{{tag.id}}" type="checkbox" value="{{tag.name}}">
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
             <button class="btn btn-info" id="cancel-new-post">Cancel</button>
         </div>
 
