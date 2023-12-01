@@ -1,4 +1,4 @@
-from models import User, db, Post
+from models import db, User, Post, Tag, PostTag
 from app import app
 
 #Create all tables
@@ -9,6 +9,8 @@ with app.app_context():
 #if table isn't empty, empty it
     User.query.delete()
     Post.query.delete()
+    Tag.query.delete()
+    PostTag.query.delete()
 
     #Add users
     JessKelly = User(first_name="Jessica", last_name="Kelly")
@@ -30,4 +32,23 @@ with app.app_context():
 
     #Add new objects to session + commit to DB
     db.session.add_all([JessPost, CraigPost, KyliePost])
+    db.session.commit()
+
+    #Add tags
+    cringe = Tag(name="cringe")
+    yolo = Tag(name="yolo")
+    truth = Tag(name="truth")
+
+    #Add new objects to session + commit to DB
+    db.session.add_all([cringe, yolo, truth])
+    db.session.commit()
+
+    #Add post_tags
+    post_tag = PostTag(post_id=1, tag_id=1)
+    post_tag2 = PostTag(post_id=2, tag_id=2)
+    post_tag3 = PostTag(post_id=3, tag_id=3)
+
+
+    #Add new objects to session + commit to DB
+    db.session.add_all([post_tag, post_tag2, post_tag3])
     db.session.commit()

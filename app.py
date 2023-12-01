@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 
 app = Flask(__name__)
 
@@ -19,6 +19,7 @@ with app.app_context():
     connect_db(app)
     db.create_all()
 
+#USER ROUTES
 @app.route('/')
 def redirect_to_user_list():
     """redirect to user lists"""
@@ -100,6 +101,7 @@ def delete_user(user_id):
 
     return redirect('/users')
 
+#POST ROUTES
 @app.route('/users/<user_id>/posts/new')
 def show_add_new_post_form(user_id):
     """Show new post form"""
@@ -167,3 +169,65 @@ def handle_delete_post(post_id):
     db.session.commit()
 
     return redirect (f'/users/{user.id}')
+
+#TAG ROUTES
+@app.route('/tags')
+def show_all_tags():
+    """Show all tags"""
+
+    tags = Tag.query.order_by(Tag.name).all()
+
+    return render_template('tags.html', tags=tags)
+
+@app.route('/tags/<tag_id>')
+def show_tag_details(tag_id):
+    """Show individual tag details"""
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('tag_detail.html', tag=tag)
+
+@app.route('/tags/new')
+def show_new_tag_form():
+    """Show a form to create a new tag"""
+
+    return render_template('new_tag.html')
+
+@app.route('/tags/new', methods=["POST"])
+def handle_new_tag_form():
+    """Handle the submission of new tag form"""
+
+    name = request.form['name']
+    new_tag = Tag(name=name)
+
+    db.session.add(new_tag)
+    db.session.commit()
+
+    return redirect(f'/tags/{new_tag.id}')
+
+@app.route('/tags/<tag_id>/edit')
+def show_edit_tag_form(tag_id):
+    """Show a form to edit a specific tag"""
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('edit_tag.html', tag=tag)
+
+@app.route('/tags/<tag_id>/edit', methods=["POST"])
+def handle_edit_tag_form(tag_id):
+    """Handle the submission of edit tag form"""
+    tag = Tag.query.get(tag_id)
+
+    tag.name = request.form.get('name') if request.form.get('name') else tag.name
+
+    db.session.commit()
+
+    return redirect('/tags')
+
+@app.route('/tags/<tag_id>/delete')
+def handle_delete_tag(tag_id):
+    """Handle deleting a tag"""
+    tag = Tag.query.get(tag_id)
+
+    db.session.delete(tag)
+    db.session.commit()
+
+    return redirect('/tags')
