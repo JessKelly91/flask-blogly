@@ -4,7 +4,7 @@
 
 {% block body_content%}
 
-<h2>Edit {{tag.name}}</h2>
+<h2 class="text-center">Edit Tag: {{tag.name}}</h2>
 
 <div class="container">
     <form action="/tags/{{tag.id}}/edit" method="POST">
@@ -14,10 +14,24 @@
         </div>
 
         <div class="mb-3">
-            <a id="cancel-edit-tag" class="btn btn-info" href="/tags/{{tag.id}}" role="button">Cancel</a>
+            <p>Add to Post:</p>
+            {% for post in posts%}
+                {% if tag in posts.tags%}
+                    <div>
+                        <input id="{{post.id}}" name="posts" type="checkbox" value="{{post.title}}">
+                        <label for="posts" class="form-label" checked>{{post.title}}</label>
+                    </div>
+                {% else %}
+                    <div>
+                        <input id="{{post.id}}" name="posts" type="checkbox" value="{{post.title}}">
+                        <label for="posts" class="form-label">{{post.title}}</label>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
 
         <div class="mb-3">
+            <a id="cancel-edit-tag" class="btn btn-info" href="/tags/{{tag.id}}" role="button">Cancel</a>
             <button class="btn btn-success" id="submit-edit-tag" type="Submit">Save!</button>
         </div>
     </form>

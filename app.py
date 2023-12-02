@@ -127,9 +127,10 @@ def handle_add_new_post(user_id):
     db.session.add(new_post)
     db.session.commit()
 
+    #get selected tags + commit to post_tag table
     selected_tags = request.form.getlist('tags')
-    for tag_id in selected_tags:
-        tag = Tag.query.get(tag_id)
+    for tag in selected_tags:
+        tag = Tag.query.filter_by(name=tag).one()
         if tag:
             new_post_tag = PostTag(post_id=new_post.id, tag_id=tag.id)
             db.session.add(new_post_tag)
@@ -203,8 +204,9 @@ def show_tag_details(tag_id):
 @app.route('/tags/new')
 def show_new_tag_form():
     """Show a form to create a new tag"""
+    posts = Post.query.order_by(Post.title).all()
 
-    return render_template('new_tag.html')
+    return render_template('new_tag.html', posts=posts)
 
 @app.route('/tags/new', methods=["POST"])
 def handle_new_tag_form():
@@ -222,8 +224,9 @@ def handle_new_tag_form():
 def show_edit_tag_form(tag_id):
     """Show a form to edit a specific tag"""
     tag = Tag.query.get_or_404(tag_id)
+    posts = Post.query.order_by(Post.title).all()
 
-    return render_template('edit_tag.html', tag=tag)
+    return render_template('edit_tag.html', tag=tag, posts=posts)
 
 @app.route('/tags/<tag_id>/edit', methods=["POST"])
 def handle_edit_tag_form(tag_id):

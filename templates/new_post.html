@@ -21,8 +21,10 @@
         <div class="mb-3">
             <p>Tags:</p>
             {% for tag in tags%}
-                <label for="{{tag.id}}" class="form-label">{{tag.name}}</label>
-                <input id="{{tag.id}}" name="{{tag.id}}" type="checkbox" value="{{tag.name}}">
+                <div>
+                    <input id="{{tag.id}}" name="tags" type="checkbox" value="{{tag.name}}">
+                    <label for="tags" class="form-label">{{tag.name}}</label>
+                </div>
             {% endfor %}
         </div>
 
